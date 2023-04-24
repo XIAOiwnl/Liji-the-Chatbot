@@ -19,7 +19,7 @@ const VanillaChat = () => {
         setMessages(updatedMessages);
         setInput("");
 
-        const response = await fetch("http://localhost:3001/chatbot2", {
+        const response = await fetch("/api/chatbot2", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

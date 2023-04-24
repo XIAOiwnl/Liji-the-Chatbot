@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const axios = require("axios");
+const path = require("path");
 
 const app = express();
 
@@ -21,7 +22,7 @@ const chatGPTRequest = async (messages, additional_context = "") => {
         ...messages.map((msg) => ({ role: msg.sender, content: msg.message })),
     ];
 
-    // console.log(formattedMessages);
+        // console.log(formattedMessages);
 
     const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -44,27 +45,37 @@ const chatGPTRequest = async (messages, additional_context = "") => {
     return response.data.choices[0].message.content.trim();
 };
 
-app.post("/chatbot2", async (req, res) => {
+app.post("/api/chatbot2", async (req, res) => {
     const { input, messages } = req.body;
     const chatResponse = await chatGPTRequest(messages);
     res.json({ message: chatResponse });
 });
 
-app.post("/chatbot1", async (req, res) => {
+app.post("/api/chatbot1", async (req, res) => {
+    console.log("Request received at /api/chatbot1");
+
     const { input, messages, predefinedQuestions } = req.body;
     const additional_context =
-    `${PREDEFINED_INSTRUCTIONS}` +
-    predefinedQuestions
-        .map(
-            (qa, index) =>
-                `Predefined question ${index + 1}: ${
-                    qa.question
-                } Predefined answer ${index + 1}: ${qa.answer}`
-        )
-        .join(" ");
+        `${PREDEFINED_INSTRUCTIONS}` +
+        predefinedQuestions
+            .map(
+                (qa, index) =>
+                    `Predefined question ${index + 1}: ${
+                        qa.question
+                    } Predefined answer ${index + 1}: ${qa.answer}`
+            )
+            .join(" ");
 
     const chatResponse = await chatGPTRequest(messages, additional_context);
     res.json({ message: chatResponse });
+});
+
+// Serve static files from the React build folder
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+// Catch-all route to serve the index.html file
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });
 
 const PORT = process.env.PORT || 3001;

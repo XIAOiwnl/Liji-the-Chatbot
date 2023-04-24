@@ -21,7 +21,7 @@ const LijiChat = () => {
         setMessages(updatedMessages);
         setInput("");
 
-        const response = await fetch("http://localhost:3001/chatbot1", {
+        const response = await fetch("/api/chatbot1", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

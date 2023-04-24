@@ -13,16 +13,15 @@ app.use(cors());
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 const PREDEFINED_INSTRUCTIONS =
-    "You will be talking to a user through our messaging app. Take more care of the user based on their answers to our predefined questions which will be passed in.";
+    "You will be talking to a user through our messaging app. Take more care of the user based on their answers to our predefined questions.";
 
 const chatGPTRequest = async (messages, additional_context = "") => {
-    console.log(messages);
     const formattedMessages = [
         { role: "system", content: additional_context },
         ...messages.map((msg) => ({ role: msg.sender, content: msg.message })),
     ];
 
-    console.log(formattedMessages);
+    // console.log(formattedMessages);
 
     const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -54,15 +53,16 @@ app.post("/chatbot2", async (req, res) => {
 app.post("/chatbot1", async (req, res) => {
     const { input, messages, predefinedQuestions } = req.body;
     const additional_context =
-        `${PREDEFINED_INSTRUCTIONS}` +
-        predefinedQuestions
-            .map(
-                (qa, index) =>
-                    `\nPredefined question ${index + 1}: ${
-                        qa.question
-                    }\nPredefined answer ${index + 1}: ${qa.answer}`
-            )
-            .join("");
+    `${PREDEFINED_INSTRUCTIONS}` +
+    predefinedQuestions
+        .map(
+            (qa, index) =>
+                `Predefined question ${index + 1}: ${
+                    qa.question
+                } Predefined answer ${index + 1}: ${qa.answer}`
+        )
+        .join(" ");
+
     const chatResponse = await chatGPTRequest(messages, additional_context);
     res.json({ message: chatResponse });
 });

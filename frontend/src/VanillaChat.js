@@ -30,7 +30,7 @@ const VanillaChat = () => {
         const data = await response.json();
         setMessages([
             ...updatedMessages,
-            { message: data.message, sender: "system" },
+            { message: data.message, sender: "assistant" },
         ]);
     };
 

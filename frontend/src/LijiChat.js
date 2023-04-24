@@ -94,7 +94,7 @@ const LijiChat = () => {
                     onClick={handleFinishedTalking}
                     className="ml-4 px-4 py-2 bg-green-500 text-white rounded-lg"
                 >
-                    Finished talking
+                    End Chat
                 </button>
             </div>
         </div>

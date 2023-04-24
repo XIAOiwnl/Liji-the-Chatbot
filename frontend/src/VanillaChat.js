@@ -1,4 +1,3 @@
-// src/VanillaChat.js
 import React, { useState, useEffect } from "react";
 import Message from "./components/Message";
 import { useNavigate } from "react-router-dom";
@@ -89,7 +88,7 @@ const VanillaChat = () => {
                     onClick={handleFinishedTalking}
                     className="ml-4 px-4 py-2 bg-green-500 text-white rounded-lg"
                 >
-                    Finished talking
+                    End Chat
                 </button>
             </div>
         </div>

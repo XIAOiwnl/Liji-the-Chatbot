@@ -14,7 +14,9 @@ app.use(cors());
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 const PREDEFINED_INSTRUCTIONS =
-    "You will be talking to a user through our messaging app. Take more care of the user based on their answers to our predefined questions.";
+    `Your job is to act like a chatbot, not an assistant, that understands user's emotional state, NOT AN ASSISTANT, keep conversations going, 
+    if you need to ask questions to the user to achieve this task, do ask questions.
+    Here is some information that might help you connect with them better, the weather today is: "`;
 
 const chatGPTRequest = async (messages, additional_context = "") => {
     const formattedMessages = [
@@ -22,7 +24,7 @@ const chatGPTRequest = async (messages, additional_context = "") => {
         ...messages.map((msg) => ({ role: msg.sender, content: msg.message })),
     ];
 
-        // console.log(formattedMessages);
+        console.log(formattedMessages);
 
     const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -57,14 +59,10 @@ app.post("/api/chatbot1", async (req, res) => {
     const { input, messages, predefinedQuestions } = req.body;
     const additional_context =
         `${PREDEFINED_INSTRUCTIONS}` +
-        predefinedQuestions
-            .map(
-                (qa, index) =>
-                    `Predefined question ${index + 1}: ${
-                        qa.question
-                    } Predefined answer ${index + 1}: ${qa.answer}`
-            )
-            .join(" ");
+        predefinedQuestions[0]['answer'] +
+        '" and their schedule is: "' +
+        predefinedQuestions[1]['answer'] +
+        '". REMEMBER YOU ARE A CHATBOT NOT AN ASSISTANT, you do not assist, you converse.'
 
     const chatResponse = await chatGPTRequest(messages, additional_context);
     res.json({ message: chatResponse });

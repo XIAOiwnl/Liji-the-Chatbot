@@ -26,8 +26,12 @@
     margin-bottom: 0.5rem;
   }
 
+  .survey-btn{
+    margin: 1rem;
+  }
+
   .next-btn {
-    background-color: #007bff;
+    background-color: #2f80ed;
     border: none;
     border-radius: 0.25rem;
     color: #fff;

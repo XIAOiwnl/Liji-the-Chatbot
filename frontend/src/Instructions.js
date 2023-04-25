@@ -3,9 +3,20 @@ import "./Instructions.css";
 import { Link } from "react-router-dom";
 
 function WelcomePage() {
+    const googleFormLink = process.env.REACT_APP_GOOGLE_FORM_LINK;
     return (
         <div class="instructions-page">
             <h1>Instructions</h1>
+            {/* below is the button to google form */}
+            <a
+                href={googleFormLink}
+                target="_blank"
+                rel="noreferrer"
+                className="px-6 py-3 bg-blue-500 text-white rounded-lg survey-btn"
+            >
+                Go to survey
+            </a>
+            
             <ul>
                 <li>
                     Read the predefined questions carefully and provide your

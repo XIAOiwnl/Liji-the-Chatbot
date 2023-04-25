@@ -5,6 +5,12 @@ import "./Questions.css";
 function Questions() {
     const [answer1, setAnswer1] = useState("");
     const [answer2, setAnswer2] = useState("");
+
+    // Example hint answers for the predefined questions
+    const [exampleAnswer1] = useState("Sunny and warm."); 
+    const [exampleAnswer2] = useState("Working from 9 to 5, then going to the gym."); 
+
+
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
@@ -44,6 +50,7 @@ function Questions() {
                         required
                         value={answer1}
                         onChange={(e) => setAnswer1(e.target.value)}
+                        placeholder={exampleAnswer1}
                     />
                 </div>
                 <div className="question">
@@ -58,6 +65,7 @@ function Questions() {
                         required
                         value={answer2}
                         onChange={(e) => setAnswer2(e.target.value)}
+                        placeholder={exampleAnswer2}
                     />
                 </div>
                 <input className="submit-btn" type="submit" value="Submit" />
